@@ -100,7 +100,7 @@ if select_ingredientes:
     if ingrediente_atual not in st.session_state.dados_ingredientes:
         st.session_state.dados_ingredientes[ingrediente_atual] = {
             "quantidade_pacote": 1,  
-            "valor_pacote": 0.01,  
+            "valor_pacote": 1.00,  
             "quantidade_usada": 1
         }
 
@@ -114,7 +114,7 @@ if select_ingredientes:
 
     valor_pacote = st.number_input(
         f'Valor pago pelo pacote de {ingrediente_atual} R$ (PREÇO MERCADO):',
-        min_value=0.01, step=0.01, value=dados["valor_pacote"], key=f'valor_{ingrediente_atual}'
+        min_value=1.00, step=1.00, value=dados["valor_pacote"], key=f'valor_{ingrediente_atual}'
     )
 
     quantidade_usada = st.number_input(
@@ -151,7 +151,7 @@ if select_ingredientes:
         )
         valor_embalagens = st.number_input(
             f'Valor pago pelo pacote de embalagens (R$):',
-            min_value=0.01, step=0.01
+            min_value=1.00, step=1.00
         )
         quantidade_embalagens = st.number_input(
             f'Quantidade em unidades no pacote:',
@@ -173,12 +173,15 @@ if select_ingredientes:
             st.subheader('Rendimento da receita')
             rendimento = st.number_input(
                 f'Qual foi o rendimento da sua receita de {select_receita}?',
-                min_value=1, step=1
+                min_value=0, step=1
             )
 
+            st.session_state['rendimento'] = rendimento
+
         
-        if st.button('Finalizar e exibir resultados'):
-            st.session_state.exibir_resultados = True
+            if rendimento > 0:
+                if st.button('Finalizar e exibir resultados'):
+                    st.session_state.exibir_resultados = True
 
 
         if st.session_state.get('exibir_resultados', False):
